@@ -4,7 +4,6 @@ import com.trading_platform.customer_service.dto.request.StockTradeRequest;
 import com.trading_platform.customer_service.dto.response.StockTradeResponse;
 import com.trading_platform.customer_service.entity.Customer;
 import com.trading_platform.customer_service.entity.PortfolioItem;
-import com.trading_platform.customer_service.enums.TickerEnum;
 import com.trading_platform.customer_service.exception.CustomerNotFoundException;
 import com.trading_platform.customer_service.exception.NotEnoughBalanceException;
 import com.trading_platform.customer_service.exception.NotEnoughTicketAmountException;
