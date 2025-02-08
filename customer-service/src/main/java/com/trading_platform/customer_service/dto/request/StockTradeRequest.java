@@ -1,6 +1,14 @@
 package com.trading_platform.customer_service.dto.request;
 
-public record StockTradeRequest(
+import com.trading_platform.customer_service.enums.TickerEnum;
+import com.trading_platform.customer_service.enums.TradeActionEnum;
+import lombok.Data;
 
-) {
+@Data
+public class StockTradeRequest {
+    private Integer customerId;
+    private TickerEnum ticker;
+    private Integer price;
+    private Integer quantity;
+    private TradeActionEnum tradeAction;
 }
