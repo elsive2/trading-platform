@@ -2,6 +2,7 @@ package com.trading_platform.customer_service.controller;
 
 import com.trading_platform.customer_service.dto.CustomerInformation;
 import com.trading_platform.customer_service.service.CustomerService;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
