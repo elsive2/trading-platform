@@ -1,40 +1,66 @@
 package com.trading_platform.stock_service.controller;
 
-import com.trading_platform.stock_service.dto.PriceResultDto;
-import com.trading_platform.stock_service.entity.Stock;
-import com.trading_platform.stock_service.enums.TickerEnum;
-import com.trading_platform.stock_service.repository.StockRepository;
+import com.trading_platform.stock_service.dto.request.StockCreateRequestDto;
+import com.trading_platform.stock_service.dto.response.StockResponseDto;
+import com.trading_platform.stock_service.service.StockService;
+import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.List;
 
 @RestController
+@RequestMapping("/stocks")
 public class StockController {
-    private final StockRepository stockRepository;
+    private final StockService stockService;
 
-    public StockController(StockRepository stockRepository) {
-        this.stockRepository = stockRepository;
+    public StockController(StockService stockService) {
+        this.stockService = stockService;
     }
 
-    @GetMapping("/stream")
-    public Flux<ServerSentEvent<List<PriceResultDto>>> streamPrices() {
-        return Flux.interval(Duration.ofSeconds(1))
-                .flatMap(i -> getPrices().collectList())
-                .map(prices -> ServerSentEvent.<List<PriceResultDto>>builder()
-                        .event("ticker")
-                        .data(prices)
-                        .build());
+    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ServerSentEvent<List<StockResponseDto>>> streamPrices(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size
+    ) {
+        return stockService.activeStream(page, size);
     }
 
-    private Flux<PriceResultDto> getPrices() {
-        return Flux.just(TickerEnum.values())
-                .flatMap(ticker -> stockRepository.findByName(ticker)
-                            .switchIfEmpty(stockRepository.save(new Stock(null, ticker, (int) (Math.random() * 100))))
-                )
-                .map(stock -> new PriceResultDto(stock.getName(), stock.getPrice()));
+    @GetMapping(value = "/updates", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<StockResponseDto> getStockUpdates(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size
+    ) {
+        return stockService.getStockUpdates(page, size);
+    }
+
+    @GetMapping
+    public Flux<StockResponseDto> findAll(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size
+    ) {
+        return stockService.findAll(page, size);
+    }
+
+    @GetMapping("/{id}")
+    public Mono<StockResponseDto> findById(@PathVariable Integer id) {
+        return stockService.findById(id);
+    }
+
+    @PostMapping
+    public Mono<StockResponseDto> create(@RequestBody Mono<StockCreateRequestDto> requestDto) {
+        return stockService.create(requestDto);
+    }
+
+    @PutMapping("/{id}")
+    public Mono<StockResponseDto> update(@PathVariable Integer id, @RequestBody Mono<StockCreateRequestDto> requestDto) {
+        return stockService.update(id, requestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> delete(@PathVariable Integer id) {
+        return stockService.delete(id);
     }
 }
