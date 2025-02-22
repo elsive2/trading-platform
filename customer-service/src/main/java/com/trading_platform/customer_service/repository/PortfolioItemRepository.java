@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface PortfolioItemRepository extends ReactiveCrudRepository<PortfolioItem, Integer> {
-    Mono<PortfolioItem> findByCustomerIdAndTicker(Integer customerId, TickerEnum ticker);
+    Mono<PortfolioItem> findByCustomerIdAndStockId(Integer customerId, Integer stockId);
 
     Flux<PortfolioItem> findByCustomerId(Integer customerId);
 }

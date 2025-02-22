@@ -8,7 +8,7 @@ import lombok.Data;
 public class StockTradeRequest {
     private Integer customerId;
     private TickerEnum ticker;
-    private Integer price;
+    private Integer stockId;
     private Integer quantity;
     private TradeActionEnum tradeAction;
 }

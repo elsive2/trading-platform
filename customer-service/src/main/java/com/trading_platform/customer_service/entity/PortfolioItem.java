@@ -15,6 +15,6 @@ public class PortfolioItem {
     @Id
     private Integer id;
     private Integer customerId;
-    private TickerEnum ticker;
+    private Integer stockId;
     private Integer quantity;
 }

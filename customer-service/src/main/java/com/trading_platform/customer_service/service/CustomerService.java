@@ -22,7 +22,7 @@ public class CustomerService {
         return customerRepository.findById(id)
                 .switchIfEmpty(Mono.error(new CustomerNotFoundException(id)))
                 .flatMap(customer -> portfolioItemRepository.findByCustomerId(customer.getId())
-                            .map(portfolioItem -> new Holding(portfolioItem.getTicker(), portfolioItem.getQuantity()))
+                            .map(portfolioItem -> new Holding(portfolioItem.getCustomerId(), portfolioItem.getQuantity()))
                             .collectList()
                             .map(holdings -> new CustomerInformation(customer.getId(), customer.getName(), customer.getBalance(), holdings))
                 );

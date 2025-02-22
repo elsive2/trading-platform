@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Holding {
-    private TickerEnum ticker;
+    private Integer stockId;
     private Integer quantity;
 }
