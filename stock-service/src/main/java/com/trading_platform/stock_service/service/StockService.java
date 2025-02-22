@@ -3,6 +3,7 @@ package com.trading_platform.stock_service.service;
 import com.trading_platform.stock_service.dto.request.StockCreateRequestDto;
 import com.trading_platform.stock_service.dto.response.StockResponseDto;
 import com.trading_platform.stock_service.entity.Stock;
+import com.trading_platform.stock_service.exception.StockAlreadyExistsException;
 import com.trading_platform.stock_service.exception.StockNotFoundException;
 import com.trading_platform.stock_service.mapper.StockMapper;
 import com.trading_platform.stock_service.repository.StockRepository;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Sinks;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StockService {
@@ -42,20 +44,36 @@ public class StockService {
 
     public Mono<StockResponseDto> create(Mono<StockCreateRequestDto> requestDto) {
         return requestDto.flatMap(request ->
-                stockRepository.save(new Stock(null, request.getName(), request.getPrice()))
-                        .map(mapper::toResponse)
-                        .doOnNext(sinks::tryEmitNext)
+                stockRepository.findByName(request.getName())
+                                .hasElement()
+                                .flatMap(isExist -> {
+                                    if (isExist) {
+                                        return Mono.error(new StockAlreadyExistsException(request.getName()));
+                                    }
+                                    return stockRepository.save(new Stock(null, request.getName(), request.getPrice()))
+                                            .map(mapper::toResponse)
+                                            .doOnNext(sinks::tryEmitNext);
+                                })
         );
     }
 
     public Mono<StockResponseDto> update(Integer id, Mono<StockCreateRequestDto> requestDto) {
-        return requestDto.flatMap(request ->
-                stockRepository.findById(id)
+        return requestDto
+                .defaultIfEmpty(new StockCreateRequestDto())
+                .flatMap(request -> stockRepository.findById(id)
                         .switchIfEmpty(Mono.error(new StockNotFoundException(id)))
-                        .flatMap(stock -> stockRepository.save(new Stock(id, request.getName(), request.getPrice())))
+                        .flatMap(existingStock -> {
+                            if (Objects.nonNull(request.getName())) {
+                                existingStock.setName(request.getName());
+                            }
+                            if (Objects.nonNull(request.getPrice())) {
+                                existingStock.setPrice(request.getPrice());
+                            }
+                            return stockRepository.save(existingStock);
+                        })
                         .map(mapper::toResponse)
                         .doOnNext(sinks::tryEmitNext)
-        );
+                );
     }
 
     public Mono<Void> delete(Integer id) {
@@ -66,7 +84,7 @@ public class StockService {
     }
 
     public Flux<ServerSentEvent<List<StockResponseDto>>> activeStream(Integer page, Integer size) {
-        return Flux.interval(Duration.ofMinutes(1))
+        return Flux.interval(Duration.ofSeconds(1))
                 .flatMap(i -> findAll(page, size).collectList())
                 .map(prices -> ServerSentEvent.<List<StockResponseDto>>builder()
                         .data(prices)
