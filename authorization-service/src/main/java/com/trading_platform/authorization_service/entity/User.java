@@ -2,7 +2,6 @@ package com.trading_platform.authorization_service.entity;
 
 import com.trading_platform.authorization_service.enums.Role;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -64,4 +63,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 }

@@ -2,7 +2,6 @@ package com.trading_platform.authorization_service.service;
 
 import com.trading_platform.authorization_service.entity.User;
 import com.trading_platform.authorization_service.enums.Role;
-import com.trading_platform.authorization_service.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +11,6 @@ import reactor.core.publisher.Mono;
 import java.util.*;
 
 @Service
-@AllArgsConstructor
 public class UserService {
     private Map<String, User> data;
 
