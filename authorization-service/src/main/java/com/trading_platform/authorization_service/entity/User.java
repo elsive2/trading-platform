@@ -22,10 +22,12 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Getter @Setter
     public String id;
 
     private String username;
 
+    @Getter @Setter
     private String email;
 
     private String password;

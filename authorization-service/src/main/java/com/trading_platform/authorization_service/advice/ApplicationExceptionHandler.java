@@ -1,6 +1,7 @@
 package com.trading_platform.authorization_service.advice;
 
 import com.trading_platform.authorization_service.exception.BaseException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 
 import java.util.Optional;
 
+@Slf4j
 @ControllerAdvice
 public class ApplicationExceptionHandler {
-    private static final Logger log = LoggerFactory.getLogger(ApplicationExceptionHandler.class);
+    private static final String DEFAULT_VALIDATION_MESSAGE = "Validation failed";
+    private static final String DEFAULT_MESSAGE = "Invalid Request";
 
     @ExceptionHandler(BaseException.class)
     public ProblemDetail exceptionHandler(BaseException e) {
@@ -26,8 +29,7 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(WebExchangeBindException.class)
     public ProblemDetail validationExceptionHandler(WebExchangeBindException e) {
-        Logger log = LoggerFactory.getLogger(getClass());
-        log.error("Validation error occurred", e);
+        log.error(DEFAULT_VALIDATION_MESSAGE, e);
 
         Optional<String> firstErrorMessage = e.getBindingResult()
                 .getAllErrors()
@@ -37,8 +39,8 @@ public class ApplicationExceptionHandler {
                 .findFirst();
 
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setDetail(firstErrorMessage.orElse("Validation failed"));
-        problemDetail.setTitle("Invalid Request");
+        problemDetail.setDetail(firstErrorMessage.orElse(DEFAULT_VALIDATION_MESSAGE));
+        problemDetail.setTitle(DEFAULT_MESSAGE);
 
         return problemDetail;
     }
