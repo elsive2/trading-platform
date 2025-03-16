@@ -18,6 +18,7 @@ import java.util.*;
 @Builder
 @Document(collection = "users")
 public class User implements UserDetails {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
