@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
@@ -26,8 +27,6 @@ import reactor.core.publisher.Mono;
 public class WebSecurityConfig {
 
     private final JwtFilter jwtFilter;
-
-    private final PBKDF2Encoder passwordEncoder;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -43,24 +42,20 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
                             .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                            .pathMatchers("/login").permitAll()
+                            .pathMatchers("/auth/**").permitAll()
                             .anyExchange().authenticated())
                 .build();
     }
 
     @Bean
-    public ReactiveUserDetailsService userDetailsService() {
-        UserDetails adminDetails = User.withUsername("admin")
-                .password(passwordEncoder.encode("password"))
-                .roles("ADMIN")
-                .build();
+    public ReactiveAuthenticationManager authenticationManager(
+            ReactiveUserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder
+    ) {
+        UserDetailsRepositoryReactiveAuthenticationManager authManager = new UserDetailsRepositoryReactiveAuthenticationManager(
+                userDetailsService
+        );
 
-        return username -> Mono.just(adminDetails);
-    }
-
-    @Bean
-    public ReactiveAuthenticationManager authenticationManager(ReactiveUserDetailsService userDetailsService) {
-        UserDetailsRepositoryReactiveAuthenticationManager authManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
         authManager.setPasswordEncoder(passwordEncoder);
         return authManager;
     }

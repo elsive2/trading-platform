@@ -2,24 +2,30 @@ package com.trading_platform.authorization_service.entity;
 
 import com.trading_platform.authorization_service.enums.Role;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.Serial;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Document(collection = "users")
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    public String id;
+
     private String username;
+
+    private String email;
 
     private String password;
 
@@ -27,11 +33,13 @@ public class User implements UserDetails {
     private Boolean enabled;
 
     @Getter @Setter
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(authority -> new SimpleGrantedAuthority(authority.toString())).toList();
+        return roles.stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.toString()))
+                .toList();
     }
 
     @Override
@@ -46,22 +54,29 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void addRole(Role role) {
+        if (roles == null) {
+            roles = new ArrayList<>();
+        }
+        roles.add(role);
     }
 
 }
