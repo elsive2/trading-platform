@@ -18,20 +18,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 @RestController
 public class UserController {
-    private final UserMapper userMapper;
 
-    private final UserService userService;
-
-    @GetMapping("/me")
-    public Mono<UserResponse> me() {
-        return ReactiveSecurityContextHolder.getContext()
-                .map(SecurityContext::getAuthentication)
-                .map(Authentication::getPrincipal)
-                .cast(String.class)
-                .flatMap(userService::findByUsername)
-                .cast(User.class)
-                .map(userMapper::toResponseFromEntity);
-    }
 
     @GetMapping("/resource/user")
     @PreAuthorize("hasRole('USER')")

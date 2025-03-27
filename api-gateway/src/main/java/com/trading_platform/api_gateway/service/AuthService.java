@@ -10,16 +10,14 @@ import reactor.core.publisher.Mono;
 public class AuthService {
     private final WebClient webClient;
 
-    public AuthService() {
-        this.webClient = WebClient.builder()
-                .baseUrl("http://authorization-service")
-                .build();
+    public AuthService(WebClient.Builder builder) {
+        this.webClient = builder.build();
     }
 
     public Mono<AuthResponseDto> auth(String token) {
         return webClient.get()
-                .uri("/me")
-                .header("Authorization", "Bearer " + token)
+                .uri("http://authorization-service/auth/me")
+                .header("Authorization", token)
                 .retrieve()
                 .bodyToMono(AuthResponseDto.class);
     }
