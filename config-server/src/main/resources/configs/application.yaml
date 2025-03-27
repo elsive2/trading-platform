@@ -1,0 +1,4 @@
+app:
+  authorization:
+    header-name: "Authorization"
+    header-prefix: "Bearer "
