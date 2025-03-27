@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-@RequestMapping("/auth")
 @AllArgsConstructor
 @RestController
 public class AuthController {

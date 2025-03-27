@@ -18,16 +18,19 @@ public class GatewayConfig {
                 .route(r -> r.path("/customers/**")
                         .filters(f -> f
                                 .circuitBreaker(c -> c.setName("backendService"))
+                                .stripPrefix(1)
                         )
                         .uri("lb://customer-service"))
                 .route(r -> r.path("/auth/**")
                         .filters(f -> f
                                 .circuitBreaker(c -> c.setName("backendService"))
+                                .stripPrefix(1)
                         )
                         .uri("lb://authorization-service"))
                 .route(r -> r.path("/stocks/**")
                         .filters(f -> f
                                 .circuitBreaker(c -> c.setName("backendService"))
+                                .stripPrefix(1)
                         )
                         .uri("lb://stock-service"))
                 .build();
