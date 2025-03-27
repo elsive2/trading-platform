@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: stock-service
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/stock_service_db
+    username: postgres
+    password: password123
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    url: jdbc:postgresql://localhost:5433/stock_service_db
+    user: postgres
+    password: password123
+
+server:
+  port: 1111
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka

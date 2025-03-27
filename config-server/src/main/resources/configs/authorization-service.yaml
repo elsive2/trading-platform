@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: authorization-service
+  data:
+    mongodb:
+      uri: mongodb://user:pass@localhost:27017/myDatabase?authSource=admin
+
+server:
+  port: 6789
+
+app:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jjwt:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
+    expiration: 28800
