@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                             .map(authResponse -> exchange.getRequest()
                                 .mutate()
                                 .header("X-User-ID", String.valueOf(authResponse.id()))
-                                .header("X-User-Role", String.valueOf(authResponse.roles()))
+                                .header("X-User-Roles", String.valueOf(authResponse.roles()))
                                 .build()
                             )
                             .flatMap(request -> chain.filter(exchange.mutate().request(request).build()))

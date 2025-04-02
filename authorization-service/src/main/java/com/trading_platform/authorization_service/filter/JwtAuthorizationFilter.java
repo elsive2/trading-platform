@@ -20,7 +20,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Component
-public class JwtFilter implements WebFilter {
+public class JwtAuthorizationFilter implements WebFilter {
 
     private final JwtUtil jwtUtil;
 
