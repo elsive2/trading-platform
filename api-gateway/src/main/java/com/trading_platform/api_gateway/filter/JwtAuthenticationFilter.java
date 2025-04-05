@@ -1,6 +1,8 @@
 package com.trading_platform.api_gateway.filter;
 
 import com.trading_platform.api_gateway.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -8,11 +10,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 @Component
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
+    @Value("${app.headers.user-id}")
+    private String headerUserId;
+
+    @Value("${app.headers.user-roles}")
+    private String headerRoles;
+
     private final AuthService authService;
 
     public JwtAuthenticationFilter(AuthService authService) {
@@ -31,8 +38,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                 .flatMap(token -> authService.auth(token)
                             .map(authResponse -> exchange.getRequest()
                                 .mutate()
-                                .header("X-User-ID", String.valueOf(authResponse.id()))
-                                .header("X-User-Roles", String.join(",", authResponse.roles()))
+                                .header(headerUserId, String.valueOf(authResponse.id()))
+                                .header(headerRoles, String.join(",", authResponse.roles()))
                                 .build()
                             )
                             .doOnNext(System.out::println)

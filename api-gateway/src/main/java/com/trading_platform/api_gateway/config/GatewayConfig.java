@@ -15,12 +15,12 @@ public class GatewayConfig {
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route(r -> r.path("/customers/**")
+                .route(r -> r.path("/deals/**")
                         .filters(f -> f
                                 .circuitBreaker(c -> c.setName("backendService"))
                                 .stripPrefix(1)
                         )
-                        .uri("lb://customer-service"))
+                        .uri("lb://deal-service"))
                 .route(r -> r.path("/auth/**")
                         .filters(f -> f
                                 .circuitBreaker(c -> c.setName("backendService"))

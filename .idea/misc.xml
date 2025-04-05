@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/authorization-service/pom.xml" />
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/shared-context/pom.xml" />
+        <option value="$PROJECT_DIR$/deal-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
