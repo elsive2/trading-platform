@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @Component
@@ -31,9 +32,10 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                             .map(authResponse -> exchange.getRequest()
                                 .mutate()
                                 .header("X-User-ID", String.valueOf(authResponse.id()))
-                                .header("X-User-Roles", String.valueOf(authResponse.roles()))
+                                .header("X-User-Roles", String.join(",", authResponse.roles()))
                                 .build()
                             )
+                            .doOnNext(System.out::println)
                             .flatMap(request -> chain.filter(exchange.mutate().request(request).build()))
                 );
     }

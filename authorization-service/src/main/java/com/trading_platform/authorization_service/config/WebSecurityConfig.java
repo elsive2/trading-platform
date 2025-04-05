@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
                             .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                            .pathMatchers("/register/**", "/login/**", "/actuator/**").permitAll()
+                            .pathMatchers("/actuator/**", "/auth/**").permitAll()
                             .anyExchange().authenticated())
                 .build();
     }

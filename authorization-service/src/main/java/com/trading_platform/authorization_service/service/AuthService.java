@@ -27,6 +27,7 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
+    // @TODO: Cacheable
     public Mono<AuthResponse> auth(Mono<AuthRequest> request) {
         return request.flatMap(authRequest -> authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                         authRequest.getUsername(),

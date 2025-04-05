@@ -2,3 +2,6 @@ app:
   authorization:
     header-name: "Authorization"
     header-prefix: "Bearer "
+  headers:
+    user-id: "X-User-ID"
+    user-roles: "X-User-Roles"
