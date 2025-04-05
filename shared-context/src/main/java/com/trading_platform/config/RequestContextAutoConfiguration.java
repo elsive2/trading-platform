@@ -1,5 +1,6 @@
 package com.trading_platform.config;
 
+import com.trading_platform.advice.ApplicationExceptionHandler;
 import com.trading_platform.authentication.RequestContextWebFilter;
 import com.trading_platform.authentication.aspect.AuthorizedAspect;
 import com.trading_platform.authentication.aspect.AuthorizedClassAspect;
@@ -19,6 +20,12 @@ public class RequestContextAutoConfiguration {
     @ConditionalOnMissingBean
     public WebFilter requestContextFilter(HeaderProperties headerProperties) {
         return new RequestContextWebFilter(headerProperties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ApplicationExceptionHandler applicationExceptionHandler() {
+        return new ApplicationExceptionHandler();
     }
 
     @Bean

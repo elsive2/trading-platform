@@ -1,6 +1,6 @@
 package com.trading_platform.authorization_service.dto.request;
 
-import com.trading_platform.authorization_service.enums.Role;
+import com.trading_platform.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

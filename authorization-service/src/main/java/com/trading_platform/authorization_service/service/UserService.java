@@ -1,7 +1,6 @@
 package com.trading_platform.authorization_service.service;
 
 import com.trading_platform.authorization_service.entity.User;
-import com.trading_platform.authorization_service.enums.Role;
 import com.trading_platform.authorization_service.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package com.trading_platform.deal_service.advice;
+package com.trading_platform.advice;
 
-import com.trading_platform.deal_service.exception.BaseException;
+import com.trading_platform.exception.BaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ProblemDetail;

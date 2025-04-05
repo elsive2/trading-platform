@@ -1,6 +1,6 @@
 package com.trading_platform.authorization_service.entity;
 
-import com.trading_platform.authorization_service.enums.Role;
+import com.trading_platform.enums.Role;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

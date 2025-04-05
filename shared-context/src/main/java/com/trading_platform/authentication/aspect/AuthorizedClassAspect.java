@@ -3,8 +3,6 @@ package com.trading_platform.authentication.aspect;
 import com.trading_platform.authentication.Authorized;
 import com.trading_platform.authentication.RequestContext;
 import com.trading_platform.authentication.RequestContextHolder;
-import com.trading_platform.authentication.RequireRole;
-import com.trading_platform.exception.ForbiddenException;
 import com.trading_platform.exception.UnauthorizedException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
