@@ -19,4 +19,9 @@ public class TradeController {
     public Mono<StockTradeResponse> trade(@RequestBody Mono<StockTradeRequest> stockTradeRequest) {
         return stockTradeService.trade(stockTradeRequest);
     }
+
+    @GetMapping("/test")
+    public Mono<String> trade() {
+        return Mono.just("sads");
+    }
 }

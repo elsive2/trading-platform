@@ -13,7 +13,7 @@ import org.springframework.data.annotation.Id;
 public class PortfolioItem {
     @Id
     private Integer id;
-    private Integer userId;
+    private Integer accountId;
     private Integer stockId;
     private Integer quantity;
 }

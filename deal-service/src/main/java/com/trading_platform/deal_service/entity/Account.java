@@ -4,9 +4,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
-public class User {
+public class Account {
     @Id
     private Integer id;
-    private String name;
+    private Integer userId;
     private Integer balance;
 }

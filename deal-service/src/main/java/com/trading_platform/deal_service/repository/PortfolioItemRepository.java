@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface PortfolioItemRepository extends ReactiveCrudRepository<PortfolioItem, Integer> {
-    Mono<PortfolioItem> findByUserIdAndStockId(Integer userId, Integer stockId);
+    Mono<PortfolioItem> findByAccountIdAndStockId(Integer accountId, Integer stockId);
 
-    Flux<PortfolioItem> findByUserId(Integer userId);
+    Flux<PortfolioItem> findByAccountId(Integer accountId);
 }

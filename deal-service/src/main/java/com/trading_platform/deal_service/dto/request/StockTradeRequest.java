@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class StockTradeRequest {
-    private Integer userId;
+    private Integer accountId;
     private TickerEnum ticker;
     private Integer stockId;
     private Integer quantity;

@@ -17,4 +17,9 @@ public class ApplicationExceptionHandler {
 
         return ProblemDetail.forStatusAndDetail(e.getHttpStatus(), e.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    public void ex(Exception e) {
+        log.error(e.getMessage(), e);
+    }
 }

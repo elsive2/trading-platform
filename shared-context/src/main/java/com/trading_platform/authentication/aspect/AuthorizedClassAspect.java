@@ -20,7 +20,7 @@ public class AuthorizedClassAspect {
         if (Objects.nonNull(authorized)) {
             RequestContext ctx = RequestContextHolder.get();
 
-            if (Objects.isNull(ctx)) {
+            if (Objects.isNull(ctx) || Objects.isNull(ctx.getUserId())) {
                 throw new UnauthorizedException();
             }
         }

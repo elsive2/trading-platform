@@ -1,5 +1,6 @@
 package com.trading_platform.stock_service.exception;
 
+import com.trading_platform.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class StockAlreadyExistsException extends BaseException {

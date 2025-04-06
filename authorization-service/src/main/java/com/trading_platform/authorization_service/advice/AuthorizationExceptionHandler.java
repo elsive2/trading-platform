@@ -1,17 +1,18 @@
 package com.trading_platform.authorization_service.advice;
 
 import com.trading_platform.advice.ApplicationExceptionHandler;
-import com.trading_platform.authorization_service.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
 import java.util.Optional;
 
+@Component
 @Slf4j
 @ControllerAdvice
 public class AuthorizationExceptionHandler extends ApplicationExceptionHandler {
