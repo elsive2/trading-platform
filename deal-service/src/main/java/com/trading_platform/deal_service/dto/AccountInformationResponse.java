@@ -4,7 +4,6 @@ import java.util.List;
 
 public record AccountInformationResponse(
         Integer id,
-        Integer userId,
         Integer balance,
         List<Holding> holdings
 ) {

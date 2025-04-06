@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("stocks")
 public class StockController {
     private final StockService stockService;
 

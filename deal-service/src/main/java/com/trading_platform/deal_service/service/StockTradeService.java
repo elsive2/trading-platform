@@ -27,12 +27,12 @@ public class StockTradeService {
     }
 
     @Transactional
-    public Mono<StockTradeResponse> trade(Mono<StockTradeRequest> stockTradeRequest) {
+    public Mono<StockTradeResponse> trade(Mono<StockTradeRequest> stockTradeRequest, String userId) {
         return stockTradeRequest
                 .flatMap(request -> stockClient.findById(request.getStockId())
                             .map(stockResponse -> stockResponse.getPrice() * request.getQuantity())
-                            .flatMap(totalCost -> accountRepository.findById(request.getAccountId())
-                                            .switchIfEmpty(Mono.error(new AccountNotFoundException(request.getAccountId())))
+                            .flatMap(totalCost -> accountRepository.findByUserId(userId)
+                                            .switchIfEmpty(Mono.error(new AccountNotFoundException(userId)))
                                             .flatMap(account -> handleTradeAction(account, request, totalCost))
                                             .map(account -> buildTradeResponse(account, request, totalCost))
                             )
@@ -42,7 +42,6 @@ public class StockTradeService {
     private StockTradeResponse buildTradeResponse(Account account, StockTradeRequest request, int totalCost) {
         return new StockTradeResponse(
                 account.getId(),
-                request.getTicker(),
                 totalCost / request.getQuantity(),
                 request.getQuantity(),
                 request.getTradeAction(),

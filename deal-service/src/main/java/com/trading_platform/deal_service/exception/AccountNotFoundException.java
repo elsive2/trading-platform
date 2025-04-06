@@ -4,9 +4,9 @@ import com.trading_platform.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class AccountNotFoundException extends BaseException {
-    private static final String message = "Account [id=%d] not found";
+    private static final String message = "Account [id=%s] not found";
 
-    public AccountNotFoundException(Integer id) {
+    public AccountNotFoundException(String id) {
         super(message.formatted(id), HttpStatus.NOT_FOUND);
     }
 }

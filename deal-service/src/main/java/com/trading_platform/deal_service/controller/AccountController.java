@@ -1,6 +1,8 @@
 package com.trading_platform.deal_service.controller;
 
 import com.trading_platform.authentication.Authorized;
+import com.trading_platform.authentication.RequestContext;
+import com.trading_platform.authentication.RequestContextHolder;
 import com.trading_platform.deal_service.dto.AccountInformationResponse;
 import com.trading_platform.deal_service.service.AccountService;
 import lombok.AllArgsConstructor;
@@ -14,8 +16,10 @@ import reactor.core.publisher.Mono;
 public class AccountController {
     private final AccountService service;
 
-    @GetMapping("/{id}")
-    public Mono<AccountInformationResponse> findById(@PathVariable Integer id) {
-        return service.findById(id);
+    @GetMapping("/me")
+    public Mono<AccountInformationResponse> getAccount() {
+        RequestContext requestContext = RequestContextHolder.get();
+
+        return service.findOrCreateByUserId(requestContext.getUserId());
     }
 }

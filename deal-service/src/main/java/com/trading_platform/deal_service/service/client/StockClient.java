@@ -1,6 +1,7 @@
 package com.trading_platform.deal_service.service.client;
 
 import com.trading_platform.deal_service.dto.response.StockResponse;
+import com.trading_platform.exception.StockNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,8 +18,12 @@ public class StockClient {
 
     public Mono<StockResponse> findById(Integer id) {
         return webClient.get()
-                .uri("/stocks/{id}", id)
+                .uri("/{id}", id)
                 .retrieve()
+                .onStatus(
+                        status -> status.value() == 404,
+                        clientResponse -> Mono.error(new StockNotFoundException(id))
+                )
                 .bodyToMono(StockResponse.class);
     }
 }

@@ -1,6 +1,6 @@
 CREATE TABLE account (
     id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
+    user_id VARCHAR(255),
     balance NUMERIC(15, 2) DEFAULT 0
 );
 
