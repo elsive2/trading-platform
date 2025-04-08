@@ -25,6 +25,18 @@ services:
     volumes:
       - ./docker/postresql/data_deal:/var/lib/postgresql/data
 
+  postgres-db-transaction:
+    image: postgres
+    container_name: postgres-db-transaction
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: transaction_service_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./docker/postresql/data_transaction:/var/lib/postgresql/data
+
   mongodb-auth:
     image: mongodb/mongodb-community-server:latest
     environment:
