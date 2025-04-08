@@ -5,3 +5,5 @@ app:
   headers:
     user-id: "X-User-ID"
     user-roles: "X-User-Roles"
+  topics:
+    stock-trade-events: stock-trade-events

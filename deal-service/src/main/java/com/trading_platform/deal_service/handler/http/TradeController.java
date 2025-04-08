@@ -1,4 +1,4 @@
-package com.trading_platform.deal_service.controller;
+package com.trading_platform.deal_service.handler.http;
 
 import com.trading_platform.authentication.Authorized;
 import com.trading_platform.authentication.RequestContext;

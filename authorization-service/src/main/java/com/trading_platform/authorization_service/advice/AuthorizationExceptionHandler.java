@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,5 +36,10 @@ public class AuthorizationExceptionHandler extends ApplicationExceptionHandler {
         problemDetail.setTitle(DEFAULT_MESSAGE);
 
         return problemDetail;
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ProblemDetail badCredentialsExceptionHandler(BadCredentialsException e) {
+        return getProblemDetail(e, HttpStatus.BAD_REQUEST);
     }
 }

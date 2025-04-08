@@ -1,0 +1,5 @@
+CREATE TABLE outbox (
+    id UUID PRIMARY KEY,
+    payload TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);

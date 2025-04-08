@@ -28,7 +28,7 @@ public class ApplicationExceptionHandler {
         getProblemDetail(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ProblemDetail getProblemDetail(final Exception e, final HttpStatus httpStatus) {
+    protected ProblemDetail getProblemDetail(final Exception e, final HttpStatus httpStatus) {
         log.error(e.getMessage(), e);
 
         return ProblemDetail.forStatusAndDetail(httpStatus, e.getMessage());

@@ -17,6 +17,25 @@ spring:
       enabled: true
     livereload:
       enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      acks: all
+      batch-size: 1638400
+      retries: 5
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+        linger.ms: 5
+        request.timeout.ms: 60000
+      compression-type: snappy
+    listener:
+      ack-mode: record
+      poll-timeout: 150
+    main:
+      web-application-type: reactive
+      allow-bean-definition-overriding: true
 
 logging:
   level:
