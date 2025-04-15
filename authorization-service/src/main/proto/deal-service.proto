@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package trading_platform.account;
+
+option java_multiple_files = true;
+option java_package = "com.trading_platform.grpc.account";
+option java_outer_classname = "DealServiceProto";
+
+service AccountService {
+  rpc CreateAccount (AccountRequest) returns (AccountInformationResponse) {}
+}
+
+message AccountRequest { }
+
+message AccountInformationResponse {
+  int32 id = 1;
+  int32 balance = 2;
+  repeated Holding holdings = 3;
+}
+
+message Holding {
+  int32 stockId = 1;
+  int32 quantity = 2;
+}

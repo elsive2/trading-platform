@@ -7,3 +7,6 @@ app:
     user-roles: "X-User-Roles"
   topics:
     stock-trade-events: stock-trade-events
+  jjwt:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
+    expiration: 28800

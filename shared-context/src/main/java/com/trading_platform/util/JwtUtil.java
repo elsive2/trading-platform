@@ -1,14 +1,10 @@
-package com.trading_platform.authorization_service.util;
+package com.trading_platform.util;
 
-import com.trading_platform.authorization_service.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -17,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class JwtUtil {
     @Value("${app.jjwt.secret}")
     private String secret;
@@ -53,18 +48,7 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails user) {
-        List<String> authorities = user.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", authorities);
-        return doGenerateToken(claims, user.getUsername());
-    }
-
-    private String doGenerateToken(Map<String, Object> claims, String username) {
+    public String doGenerateToken(Map<String, Object> claims, String username) {
         long expirationTimeLong = Long.parseLong(expirationTime); //in seconds
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expirationTimeLong * 1000);

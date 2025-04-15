@@ -1,6 +1,6 @@
 package com.trading_platform.authorization_service.filter;
 
-import com.trading_platform.authorization_service.util.JwtUtil;
+import com.trading_platform.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
