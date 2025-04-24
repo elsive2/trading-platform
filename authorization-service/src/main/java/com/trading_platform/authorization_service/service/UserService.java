@@ -4,6 +4,7 @@ import com.trading_platform.authorization_service.entity.User;
 import com.trading_platform.authorization_service.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;

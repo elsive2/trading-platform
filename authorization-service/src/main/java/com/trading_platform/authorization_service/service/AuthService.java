@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +38,6 @@ public class AuthService {
 
     private final AccountService accountService;
 
-    // @TODO: Cacheable
     public Mono<AuthResponse> auth(Mono<AuthRequest> request) {
         return request.flatMap(authRequest -> authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                         authRequest.getUsername(),
