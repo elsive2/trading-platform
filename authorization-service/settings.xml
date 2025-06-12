@@ -1,0 +1,34 @@
+<settings>
+    <servers>
+        <server>
+            <id>nexus</id>
+            <username>admin</username>
+            <password>Qwerty123</password>
+        </server>
+    </servers>
+    <mirrors>
+        <mirror>
+            <id>allow-http</id>
+            <mirrorOf>nexus</mirrorOf>
+            <url>http://nexus:8081/repository/maven-releases</url>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>allow-insecure</id>
+            <repositories>
+                <repository>
+                    <id>nexus</id>
+                    <url>http://nexus:8081/repository/maven-releases</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>allow-insecure</activeProfile>
+    </activeProfiles>
+</settings>

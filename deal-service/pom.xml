@@ -26,12 +26,36 @@
 		<tag/>
 		<url/>
 	</scm>
+	<profiles>
+		<profile>
+			<id>allow-insecure-repos</id>
+			<repositories>
+				<repository>
+					<id>nexus</id>
+					<url>http://nexus:8081/repository/maven-releases</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
 	<properties>
 		<java.version>21</java.version>
 		<grpc.version>1.70.0</grpc.version>
 		<protobuf-java.version>3.25.6</protobuf-java.version>
 		<spring-grpc.version>0.6.0</spring-grpc.version>
+		<nuxeo.host>http://nexus:8081/repository/maven-releases</nuxeo.host>
 	</properties>
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>${nuxeo.host}</url>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -156,6 +180,18 @@
 					<execution>
 						<id>initialize</id>
 						<phase>initialize</phase>
+						<goals>
+							<goal>detect</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>1.7.0</version>
+				<executions>
+					<execution>
 						<goals>
 							<goal>detect</goal>
 						</goals>
