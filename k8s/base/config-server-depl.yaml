@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: config-server
+    type: system
+  name: config-server-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: config-server
+      type: system
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: config-server
+        type: system
+    spec:
+      containers:
+      - image: maximyakovlevvv/config-server:latest
+        name: config-server
+        ports:
+        - containerPort: 8296

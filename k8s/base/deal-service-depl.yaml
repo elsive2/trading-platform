@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deal-service
+    type: microservice
+  name: deal-service-depl
+  namespace: deal-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deal-service
+      type: microservice
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: deal-service
+        type: microservice
+    spec:
+      containers:
+      - image: maximyakovlevvv/deal-service:latest
+        name: deal-service
+        ports:
+        - containerPort: 8080
+        envFrom:
+          - configMapRef:
+              name: deal-service-configmap
+        imagePullPolicy: Always
+

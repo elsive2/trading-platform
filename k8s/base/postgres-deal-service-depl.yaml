@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres-deal-service-depl
+    type: database
+  name: postgres-deal-service-depl
+  namespace: deal-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-deal-service-depl
+      type: database
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: postgres-deal-service-depl
+        type: database
+    spec:
+      containers:
+      - image: postgres
+        name: postgres
+        ports:
+        - containerPort: 5432
+        resources: {}
+        envFrom:
+          - configMapRef:
+              name: postgres-deal-service-configmap
+          - secretRef:
+              name: postgres-deal-service-secret
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-storage
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-deal-service-pvc

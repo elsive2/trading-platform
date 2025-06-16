@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: config-server-svc
+  name: config-server-svc
+spec:
+  ports:
+  - name: 8296-8296
+    port: 8296
+    protocol: TCP
+    targetPort: 8296
+  selector:
+    app: config-server
+    type: system
+  type: ClusterIP
