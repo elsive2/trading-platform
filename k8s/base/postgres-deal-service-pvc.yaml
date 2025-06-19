@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-deal-service-pvc
-  namespace: deal-service
+  namespace: deal
 spec:
   accessModes:
     - ReadWriteOnce

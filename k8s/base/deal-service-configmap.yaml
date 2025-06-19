@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: deal-service-configmap
-  namespace: deal-service
+  namespace: deal
 data:
   SPRING_PROFILES_ACTIVE: "test"
   CONFIG_IMPORT: "configserver:http://config-server-svc.default.svc.cluster.local:8296"

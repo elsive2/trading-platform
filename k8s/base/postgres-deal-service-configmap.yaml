@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: postgres-deal-service-configmap
-  namespace: deal-service
+  namespace: deal
 data:
   POSTGRES_DB: "dealdb"
   POSTGRES_USER: "dealuser"

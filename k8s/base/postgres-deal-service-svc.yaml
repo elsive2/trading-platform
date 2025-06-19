@@ -4,7 +4,7 @@ metadata:
   labels:
     app: postgres-deal-service-svc
   name: postgres-deal-service-svc
-  namespace: deal-service
+  namespace: deal
 spec:
   ports:
   - name: 5432-5432

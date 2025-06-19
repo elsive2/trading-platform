@@ -5,7 +5,7 @@ metadata:
     app: deal-service
     type: microservice
   name: deal-service-depl
-  namespace: deal-service
+  namespace: deal
 spec:
   replicas: 1
   selector:
