@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  POSTGRES_USER: "myuser"
+  POSTGRES_DB: "mydb"
+  POSTGRES_HOST_AUTH_METHOD: "md5"
+kind: ConfigMap
+metadata:
+  name: postgres-replica-configmap-env
+  namespace: stock

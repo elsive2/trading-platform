@@ -19,45 +19,41 @@ spec:
       initContainers:
         - name: init-perms
           image: busybox
-          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 999:999 /var/lib/postgresql/data
+              chmod 0700 /var/lib/postgresql/data
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
       containers:
         - name: postgres
           image: postgres
           ports:
             - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-master-configmap-env
           env:
-            - name: POSTGRES_DB
-              value: mydb
-            - name: POSTGRES_USER
-              value: myuser
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
-            - name: POSTGRES_HOST_AUTH_METHOD
-              value: md5
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
             - name: config
               mountPath: /etc/postgresql/conf.d
-          command:
-            - "postgres"
-            - "-c"
-            - "config_file=/etc/postgresql/conf.d/master-config.conf"
           securityContext:
             runAsUser: 999
             runAsGroup: 999
       volumes:
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: postgres-master-pvc
         - name: config
           configMap:
             name: postgres-master-configmap

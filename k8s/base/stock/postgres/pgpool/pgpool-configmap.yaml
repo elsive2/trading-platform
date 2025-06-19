@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgpool-configmap
+  namespace: stock
+data:
+  PGPOOL_BACKEND_NODES: "0:postgres-master-0.postgres-master.stock.svc.cluster.local:5432,1:postgres-replica-0.postgres-replica.stock.svc.cluster.local:5432"
+  PGPOOL_SR_CHECK_USER: "myuser"
+  PGPOOL_SR_CHECK_PASSWORD: "superpass"
+  PGPOOL_ENABLE_LOAD_BALANCING: "yes"
+  PGPOOL_POSTGRES_USERNAME: "myuser"
+  PGPOOL_POSTGRES_PASSWORD: "superpass"
+  PGPOOL_POSTGRES_DATABASE: "mydb"
+  PGPOOL_ADMIN_USERNAME: "admin"
+  PGPOOL_ADMIN_PASSWORD: "admin123"
