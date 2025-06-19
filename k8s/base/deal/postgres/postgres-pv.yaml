@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-deal-service-pv
+  name: postgres-pv
   namespace: deal
 spec:
   capacity:
@@ -9,4 +9,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /mnt/data/postgres/deal-service
+    path: /mnt/data/postgres/deal

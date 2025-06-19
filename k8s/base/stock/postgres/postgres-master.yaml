@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-master
+  namespace: stock
+spec:
+  serviceName: "postgres-master"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+      role: master
+  template:
+    metadata:
+      labels:
+        app: postgres
+        role: master
+    spec:
+      initContainers:
+        - name: init-perms
+          image: busybox
+          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: mydb
+            - name: POSTGRES_USER
+              value: myuser
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: md5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: config
+              mountPath: /etc/postgresql/conf.d
+          command:
+            - "postgres"
+            - "-c"
+            - "config_file=/etc/postgresql/conf.d/master-config.conf"
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: postgres-master-configmap
+            items:
+              - key: master-config.conf
+                path: master-config.conf
+              - key: pg_hba.conf
+                path: pg_hba.conf

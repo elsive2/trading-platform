@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: postgres-deal-service-depl
+    app: postgres-depl
     type: database
-  name: postgres-deal-service-depl
+  name: postgres-depl
   namespace: deal
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres-deal-service-depl
+      app: postgres-depl
       type: database
   strategy: {}
   template:
     metadata:
       labels:
-        app: postgres-deal-service-depl
+        app: postgres-depl
         type: database
     spec:
       containers:
@@ -27,13 +27,13 @@ spec:
         resources: {}
         envFrom:
           - configMapRef:
-              name: postgres-deal-service-configmap
+              name: postgres-configmap
           - secretRef:
-              name: postgres-deal-service-secret
+              name: postgres-secret
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-storage
       volumes:
       - name: postgres-storage
         persistentVolumeClaim:
-          claimName: postgres-deal-service-pvc
+          claimName: postgres-pvc

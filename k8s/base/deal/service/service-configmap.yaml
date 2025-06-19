@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: deal-service-configmap
+  name: service-configmap
   namespace: deal
 data:
   SPRING_PROFILES_ACTIVE: "test"

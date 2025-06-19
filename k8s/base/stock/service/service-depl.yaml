@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: stock-service
+    type: microservice
+  name: service-depl
+  namespace: stock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-service
+      type: microservice
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: stock-service
+        type: microservice
+    spec:
+      containers:
+      - image: stock-service:latest
+        name: stock-service
+        resources: {}

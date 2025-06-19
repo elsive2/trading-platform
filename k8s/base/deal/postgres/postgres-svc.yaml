@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: postgres-deal-service-svc
-  name: postgres-deal-service-svc
+    app: postgres-svc
+  name: postgres-svc
   namespace: deal
 spec:
   ports:
@@ -12,7 +12,7 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    app: postgres-deal-service-depl
+    app: postgres-depl
     type: database
   type: ClusterIP
 status:

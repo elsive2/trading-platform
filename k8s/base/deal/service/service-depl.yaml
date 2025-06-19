@@ -4,7 +4,7 @@ metadata:
   labels:
     app: deal-service
     type: microservice
-  name: deal-service-depl
+  name: service-depl
   namespace: deal
 spec:
   replicas: 1
@@ -26,6 +26,6 @@ spec:
         - containerPort: 8080
         envFrom:
           - configMapRef:
-              name: deal-service-configmap
+              name: service-configmap
         imagePullPolicy: Always
 
